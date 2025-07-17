@@ -1,0 +1,3 @@
+The loop runs till result<=x and result=i*i
+then, i*i<=x--->i<=root(x)
+Time complexity is -  O(root(x))
