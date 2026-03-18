@@ -1,0 +1,47 @@
+public ListNode removeNodes(ListNode head) {
+    Stack<ListNode> st = new Stack<>();
+    ListNode temp = head;
+
+    // push all nodes to stack
+    while (temp != null) {
+        st.push(temp);
+        temp = temp.next;
+    }
+
+    // pop the top (rightmost node, always stays)
+    ListNode tail = st.peek();
+    st.pop();
+    int mx = tail.val;
+    ListNode top = null;
+
+    // process remaining nodes
+    while (st.size() > 0) {
+        top = st.peek();
+        st.pop();
+        if (top.val >= mx) {
+            mx = top.val;
+            top.next = tail;
+            tail = top;
+        }
+    }
+
+    return tail;
+}
+```
+
+---
+
+**What this approach does differently** from the previous one:
+```
+Input: 5 → 2 → 13 → 3 → 8
+
+Push all to stack: [5, 2, 13, 3, 8]  ← 8 on top
+
+tail = 8, mx = 8
+
+pop 3,  3 >= 8? No  → skip
+pop 13, 13 >= 8? Yes → 13.next = 8,  tail = 13,  mx = 13
+pop 2,  2 >= 13? No  → skip
+pop 5,  5 >= 13? No  → skip
+
+return tail → 13 → 8  ✓
